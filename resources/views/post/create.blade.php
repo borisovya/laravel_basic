@@ -14,6 +14,14 @@
             <label for="image">Image</label>
             <input type="file" name="image" accept=".jpg" class="form-control" id="image" placeholder="Select image">
         </div>
+        <div class="form-group">
+            <label for="category_id">Category</label>
+            <select class="form-control" name="category_id" id="category_id">
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}">{{$category->title}}</option>
+                @endforeach
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Add post</button>
     </form>
 @endsection
