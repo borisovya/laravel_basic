@@ -1,7 +1,7 @@
 @extends('layouts.mainLayout')
 @section('content')
-    <div>
-        <button onclick="document.location.href='{{ route('post.create') }}'">Create post</button>
+    <div class="container">
+        <button class="btn-danger" onclick="document.location.href='{{ route('post.create') }}'">Create post</button>
         @foreach($posts1 as $post)
             <div>
                 {{$post->id}}. {{$post->title}}
@@ -17,5 +17,9 @@
                 </span>
             </div>
         @endforeach
+
+        <div class="card-body mt-3">
+            <div class="card-body">{{ $posts1->links() }}</div>
+        </div>
     </div>
 @endsection

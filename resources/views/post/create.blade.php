@@ -20,8 +20,8 @@
             @enderror
         </div>
         <div class="form-group">
-            <label for="image">Image</label>
-            <input type="file" value="{{ old('image') }}" name="image" accept=".jpg" class="form-control" id="image" placeholder="Select image">
+            <label for="img">Image</label>
+            <input type="file" value="{{ old('image') }}" name="img" accept=".jpg" class="form-control" id="img" placeholder="Select image">
 
             @error('image')
             <span>{{ $message }}</span>

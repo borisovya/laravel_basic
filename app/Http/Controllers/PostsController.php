@@ -13,9 +13,6 @@ class PostsController extends Controller
     public function index()
     {
         $posts1 = Post::all();
-        $post = Post::find(3);
-
-        dd($post->tags);
 
         return view('post.index', compact('posts1'));
     }

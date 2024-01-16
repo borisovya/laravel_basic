@@ -14,8 +14,8 @@
                       placeholder="Content">{{$post->content}}</textarea>
         </div>
         <div class="form-group">
-            <label for="image">Image</label>
-            <input type="file" value="{{$post->image}}" name="image" accept=".jpg" class="form-control" id="image"
+            <label for="img">Image</label>
+            <input type="file" value="{{$post->image}}" name="img" accept=".jpg" class="form-control" id="img"
                    placeholder="Select image">
         </div>
         <div class="form-group">

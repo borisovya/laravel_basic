@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\Post\CreateController;
+use App\Http\Controllers\Post\DestroyController;
+use App\Http\Controllers\Post\EditController;
+use App\Http\Controllers\Post\IndexController;
+use App\Http\Controllers\Post\ShowController;
+use App\Http\Controllers\Post\StoreController;
+use App\Http\Controllers\Post\UpdateController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AboutController;
@@ -21,17 +28,19 @@ use Illuminate\Support\Facades\DB;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::get('/test', [TestNewController::class, 'index']);
 
-Route::get('/posts', [PostsController::class, 'index'])->name('post.index');
-Route::get('/posts/create', [PostsController::class, 'create'])->name('post.create');
+Route::group(['namespace' => 'Post'], function(){
+    Route::get('/posts', [IndexController::class, '__invoke'])->name('post.index');
+    Route::get('/posts/create', [CreateController::class, '__invoke'])->name('post.create');
+    Route::post('/posts', [StoreController::class, '__invoke'])->name('post.store');
+    Route::get('/posts/{post}', [ShowController::class, '__invoke'])->name('post.show');
+    Route::get('/posts/edit/{post}', [EditController::class, '__invoke'])->name('post.edit');
+    Route::patch('/posts/{post}', [UpdateController::class, '__invoke'])->name('post.update');
+    Route::delete('/posts/{post}', [DestroyController::class, '__invoke'])->name('post.delete');
+});
 
-Route::post('/posts', [PostsController::class, 'store'])->name('post.store');
-Route::get('/posts/{post}', [PostsController::class, 'show'])->name('post.show');
-Route::get('/posts/edit/{post}', [PostsController::class, 'edit'])->name('post.edit');
-Route::patch('/posts/{post}', [PostsController::class, 'update'])->name('post.update');
-Route::delete('/posts/{post}', [PostsController::class, 'destroy'])->name('post.delete');
+
 
 Route::get('/posts/first_or_create', [PostsController::class, 'firstOrCreate']);
 Route::get('/posts/update_or_create', [PostsController::class, 'updateOrCreate']);
@@ -48,3 +57,7 @@ Route::get('/db', function () {
         return 'Ошибка подключения к базе данных: ' . $e->getMessage();
     }
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
