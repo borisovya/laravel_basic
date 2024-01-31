@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Post\CreateController;
 use App\Http\Controllers\Post\DestroyController;
 use App\Http\Controllers\Post\EditController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\Post\ShowController;
 use App\Http\Controllers\Post\StoreController;
 use App\Http\Controllers\Post\UpdateController;
 use App\Http\Controllers\PostsController;
-use App\Http\Controllers\MainController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContactsController;
 use Illuminate\Support\Facades\Route;
@@ -25,9 +25,8 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Route::get('/test', [TestNewController::class, 'index']);
 
 Route::group(['namespace' => 'Post'], function(){
@@ -40,12 +39,18 @@ Route::group(['namespace' => 'Post'], function(){
     Route::delete('/posts/{post}', [DestroyController::class, '__invoke'])->name('post.delete');
 });
 
+Route::group(['namespace' => 'Admin', 'prefix'=> 'admin', 'middleware'=>'admin'], function(){
+//    Route::get('/admin', [IndexController::class, '__invoke'])->name('admin.index');
 
+    Route::group(['namespace' => 'Post'], function(){
+        Route::get('/post', [\App\Http\Controllers\Admin\Post\IndexController::class, '__invoke'])
+            ->name('admin.post.index');
+    });
+});
 
 Route::get('/posts/first_or_create', [PostsController::class, 'firstOrCreate']);
 Route::get('/posts/update_or_create', [PostsController::class, 'updateOrCreate']);
 
-Route::get('/main', [MainController::class, 'index'])->name('main.index');
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 Route::get('/contacts', [ContactsController::class, 'index'])->name('contact.index');
 
@@ -57,6 +62,10 @@ Route::get('/db', function () {
         return 'Ошибка подключения к базе данных: ' . $e->getMessage();
     }
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 

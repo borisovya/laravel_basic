@@ -19,7 +19,7 @@
         @endforeach
 
         <div class="card-body mt-3">
-            <div class="card-body">{{ $posts1->links() }}</div>
+            <div class="card-body">{{ $posts1->withQueryString()->links() }}</div>
         </div>
     </div>
 @endsection

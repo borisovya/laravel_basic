@@ -17,7 +17,9 @@
 <div class="container">
         <nav class="row m-lg-3">
             <ul class="nav mt-1 mb-1">
-                <li class="nav-item"> <a href="{{route('main.index')}}"> Main </a></li>
+                @can('view', auth()->user())
+                    <li class="nav-item"> <a href="{{route('admin.post.index')}}"> Admin Panel </a></li>
+                @endcan()
                 <li class="nav-item mx-2"> <a href="{{route('post.index')}}"> Posts </a></li>
                 <li class="nav-item mx-2"> <a href="{{route('contact.index')}}"> Contacts </a></li>
                 <li class="nav-item mx-2"> <a href="{{route('about.index')}}"> About </a></li>
